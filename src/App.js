@@ -1,7 +1,10 @@
 import React from 'react';
+import {BrowserRouter, Route, Switch} from 'react-router-dom';
+
+import {Navbar} from './components/layout/Navbar';
+import {Dashboard} from './components/layout/Dashboard';
+
 import './App.css';
-import {Navbar} from "./components/layout/Navbar";
-import {BrowserRouter, Switch} from "react-router-dom";
 
 function App() {
   return (
@@ -9,7 +12,9 @@ function App() {
         <div className="App">
           <Navbar />
           <div className="container">
-              <h1>Hello</h1>
+              <Switch>
+                  <Route exact path='/' component={Dashboard} />
+              </Switch>
           </div>
         </div>
       </BrowserRouter>
