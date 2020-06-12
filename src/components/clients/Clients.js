@@ -21,7 +21,7 @@ const Clients = (props) => {
                 <td>${parseFloat(client.balance).toFixed(2)}</td>
                 <td>
                     <NavLink to={`/client/${client.id}`} className='btn btn-secondary btn-sm'>
-                        <i className="fas fa-arrow-circle-right"> </i> Details
+                        <i className='fas fa-arrow-circle-right'> </i> Details
                     </NavLink>
                 </td>
             </tr>
