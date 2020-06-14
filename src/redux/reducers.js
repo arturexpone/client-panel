@@ -3,7 +3,8 @@ import {Constance} from './constance';
 
 const notifyReducerInitState = {
   message: null,
-  messageType: null
+  messageType: null,
+  detailsUserId: '',
 };
 
 export const notifyReducer = (state = notifyReducerInitState, action) => {
@@ -17,7 +18,7 @@ export const notifyReducer = (state = notifyReducerInitState, action) => {
     default:
       return state
   }
-}
+};
 
 
 export const settingsReducer = (state = {}, action) => {
@@ -40,4 +41,4 @@ export const settingsReducer = (state = {}, action) => {
     default:
       return state
   }
-}
+};

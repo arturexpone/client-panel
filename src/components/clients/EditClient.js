@@ -10,7 +10,11 @@ import {createInput} from '../utils';
 
 const EditClient = (props) => {
 
-  const { client, history, firestore, settings } = props;
+  const { client, history, firestore, settings, auth } = props;
+
+  if (!auth.uid) {
+    history.push('/login');
+  }
 
   let initialState = {
     firstName: '',
@@ -75,7 +79,9 @@ export default compose(firestoreConnect((props) => [{
     storeAs: 'client',
     doc: props.match.params.id
   }]),
-  connect(({ firestore: { ordered }, settings }, props) => ({
+  connect(({ firestore: { ordered }, settings, notify, firebase }, props) => ({
     client: ordered.client && ordered.client[0],
-    settings
+    settings,
+    notify,
+    auth: firebase.auth
   })))(EditClient);

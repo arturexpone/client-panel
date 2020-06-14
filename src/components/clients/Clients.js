@@ -4,7 +4,7 @@ import {connect} from "react-redux";
 
 import {compose} from 'redux';
 import { firestoreConnect } from 'react-redux-firebase';
-import {Loader} from "../layout/Loader";
+import {Loader} from '../layout/Loader';
 
 const Clients = (props) => {
     const {clients} = props;

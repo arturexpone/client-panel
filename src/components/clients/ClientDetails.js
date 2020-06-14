@@ -9,11 +9,12 @@ import {NavLink, Redirect} from 'react-router-dom';
 
 const ClientDetails = (props) => {
 
-    const { client, firestore, history } = props;
+    let { client, firestore, history } = props;
+
     const initialState = {
     showUpdateBalance: false,
     balance: '',
-    clientId: client && client.id ? client.id : '',
+    readyMount: false
     };
     const [state, setState] = useState(initialState);
 
@@ -24,8 +25,7 @@ const ClientDetails = (props) => {
         }
         firestore.update(
           {collection: 'clients', doc: client.id},
-          clientUpdate
-          )
+          clientUpdate)
         setState({...state, showUpdateBalance: !state.showUpdateBalance});
     };
 
@@ -136,9 +136,14 @@ const ClientDetails = (props) => {
     </div>
 </div>);
 
+    if (!state.readyMount) {
+        setTimeout(() => setState({...state, readyMount: true}), 400);
+    }
+
+
     return (
       <>
-        {state.clientId === client.id ? <Loader /> : detailsMarkdown}
+        {state.readyMount ? detailsMarkdown : <Loader />}
       </>
     )
 }
@@ -150,5 +155,6 @@ export default compose(firestoreConnect((props) => [{
 }]), firebaseConnect(),
 connect((state, props) => ({
     client: state.firestore.ordered.client && state.firestore.ordered.client[0],
-    auth: state.firebase.auth.uid})
+    auth: state.firebase.auth.uid
+})
 ))(ClientDetails);

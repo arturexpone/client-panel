@@ -31,7 +31,7 @@ const rootReducer = combineReducers({
     firebase: firebaseReducer,
     firestore: firestoreReducer,
     notify: notifyReducer,
-    settings: settingsReducer,
+    settings: settingsReducer
 });
 
 if (!localStorage.getItem('settings')) {
@@ -55,4 +55,4 @@ export const rrfProps = {
     createFirestoreInstance
 }
 
-window.vvv = store.getState();
+window.vvv = store.getState().firestore;
