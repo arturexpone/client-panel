@@ -12,11 +12,10 @@ import ClientDetails from './components/clients/ClientDetails';
 import EditClient from './components/clients/EditClient';
 import Login from './components/auth/Login';
 import {Loader} from './components/layout/Loader';
-import Settings from "./components/settings/Settings";
+import Settings from './components/settings/Settings';
+import Register from './components/auth/Register';
 
 import './App.css';
-
-
 
 
 export const App = () => {
@@ -35,6 +34,7 @@ export const App = () => {
                           <Route exact path='/client/edit/:id' component={EditClient} />
                           <Route exact path='/login' component={Login} />
                           <Route exact path='/settings' component={Settings} />
+                          <Route exact path='/register' component={Register} />
                       </Switch>
                     </Suspense>
                   </div>

@@ -90,6 +90,6 @@ export default compose(
   firebaseConnect(),
   connect((state, props) => ({
     auth: state.firebase.auth,
-    notify: state.notify
+    notify: state.notify,
   }), {notifyUser})
 )(Login);

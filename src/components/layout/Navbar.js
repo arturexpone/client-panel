@@ -20,7 +20,7 @@ const Navbar = (props) => {
         e.preventDefault();
         firebase.logout();
         setAuthenticated(false);
-        localStorage.clear();
+        localStorage.setItem('uid', '');
 
     };
 
@@ -84,7 +84,7 @@ const Navbar = (props) => {
                           </NavLink>
                       </li>
                       <li className="nav-item">
-                          <NavLink to='/login' className='nav-link'>
+                          <NavLink to='/register' className='nav-link'>
                               Register
                           </NavLink>
                       </li>
