@@ -2,6 +2,8 @@ import React, {useState} from 'react';
 import {NavLink} from 'react-router-dom';
 import {firestoreConnect} from 'react-redux-firebase';
 
+import {createInput} from '../utils';
+
 export const AddClient = (props) => {
     const initialState = {
             firstName: '',
@@ -13,33 +15,13 @@ export const AddClient = (props) => {
 
     const [state, setState] = useState(initialState);
 
-    let readyMountInput = [];
-    const createInput = (array) => {
-        readyMountInput = array.map((data, i) => {
-            return (
-                <div key={i} className='form-group'>
-                    <label htmlFor='firstName'>{data[0]}</label>
-                    <input
-                        type={data[1]}
-                        className='form-control'
-                        name={data[2]}
-                        minLength={data[2] === 'balance' ? 0 : 2}
-                        required
-                        onChange={(e) => setState({...state, [data[2]]: e.target.value}) }
-                        value={state[data[2]]}
-                    />
-                </div>
-            )
-        })
-    };
-
-    createInput([
+    let readyMountInput = createInput([
         ['First Name','text', 'firstName'],
         ['Last Name','text', 'lastName'],
         ['Email', 'email', 'email'],
         ['Phone', 'text', 'phone'],
         ['Balance','text', 'balance'],
-    ]);
+    ], state, setState);
 
     const onSubmit = (e) => {
         e.preventDefault();

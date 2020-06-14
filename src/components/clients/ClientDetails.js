@@ -62,7 +62,7 @@ const ClientDetails = (props) => {
     }
 
     return (
-        <div>
+    <div>
         <div className='row'>
             <div className='col-md-6'>
                 <NavLink to='/' className='btn btn-link'>
@@ -130,7 +130,7 @@ const ClientDetails = (props) => {
                 </ul>
             </div>
         </div>
-        </div>
+    </div>
     )
 }
 
