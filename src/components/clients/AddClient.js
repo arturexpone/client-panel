@@ -49,8 +49,6 @@ export const AddClient = (props) => {
         props.history.push('/');
     }
 
-    console.log(props)
-
     return (
         <div>
             <div className='row'>
