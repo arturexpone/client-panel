@@ -5,8 +5,7 @@ import {firestoreConnect} from 'react-redux-firebase';
 import {connect} from 'react-redux';
 
 import {Loader} from '../layout/Loader';
-import classnames from "classnames";
-import {createInput} from "../utils";
+import {createInput} from '../utils';
 
 
 const EditClient = (props) => {
