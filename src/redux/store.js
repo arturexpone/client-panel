@@ -6,6 +6,8 @@ import { createStore, combineReducers, compose } from 'redux'
 import {firebaseReducer} from 'react-redux-firebase';
 import {createFirestoreInstance, firestoreReducer} from "redux-firestore";
 
+import {notifyReducer} from './reducers';
+
 const fbConfig = {
     apiKey: "AIzaSyAwNv7bCy_O8kBNu4BhucYgtuKjQqah_8w",
     authDomain: "client-panel-ea66a.firebaseapp.com",
@@ -27,11 +29,11 @@ firebase.firestore();
 
 const rootReducer = combineReducers({
     firebase: firebaseReducer,
-    firestore: firestoreReducer
+    firestore: firestoreReducer,
+    notify: notifyReducer,
 });
 
-const initialState = {};
-export const store = createStore(rootReducer, initialState);
+export const store = createStore(rootReducer);
 
 export const rrfProps = {
     firebase,
@@ -39,3 +41,5 @@ export const rrfProps = {
     dispatch: store.dispatch,
     createFirestoreInstance
 }
+
+window.vvv = store.getState();

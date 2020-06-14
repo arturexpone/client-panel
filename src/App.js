@@ -3,8 +3,8 @@ import {BrowserRouter, Route, Switch} from 'react-router-dom';
 import {ReactReduxFirebaseProvider} from "react-redux-firebase";
 import { Provider } from 'react-redux';
 
-import {store} from './store';
-import {rrfProps} from "./store";
+import {store} from './redux/store';
+import {rrfProps} from "./redux/store";
 import Navbar from './components/layout/Navbar';
 import Dashboard from './components/layout/Dashboard';
 import AddClient from './components/clients/AddClient';

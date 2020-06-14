@@ -5,7 +5,12 @@ import {compose} from 'redux';
 import 'firebase/auth';
 import {Redirect} from 'react-router-dom';
 
-const Login = ({auth, firebase}) => {
+import {notifyUser} from '../../redux/ac';
+import {Alert} from '../layout/Alert';
+
+const Login = ({auth, firebase, notifyUser, notify}) => {
+
+  const { message, messageType } = notify;
 
   const initialState = {
     email: '',
@@ -25,8 +30,10 @@ const Login = ({auth, firebase}) => {
     firebase.default.login({
       email,
       password
-    })
-      .catch(err => alert('Invalid email or password'));
+    }).then(data => notifyUser('success', null))
+      .catch(err => {
+        notifyUser(err.message, err.code);
+      });
 
   };
 
@@ -40,6 +47,7 @@ const Login = ({auth, firebase}) => {
         <div className='col-md-6 mx-auto'>
           <div className='card'>
             <div className='card-body'>
+              {message ? (<Alert message={message} messageType={messageType}/>) : null}
               <h1 className='text-center pb-4 pt-3'>
               <span className='text-primary'>
                 <i className='fas fa-lock'> </i>
@@ -82,6 +90,7 @@ const Login = ({auth, firebase}) => {
 export default compose(
   firebaseConnect(),
   connect((state, props) => ({
-    auth: state.firebase.auth
-  }))
+    auth: state.firebase.auth,
+    notify: state.notify
+  }), {notifyUser})
 )(Login);
