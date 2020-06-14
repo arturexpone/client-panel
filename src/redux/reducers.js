@@ -6,12 +6,6 @@ const notifyReducerInitState = {
   messageType: null
 };
 
-const settingReducerInitState = {
-  disableBalanceOnAdd: false,
-  disableBalanceOnEdit: false,
-  allowRegistration: false
-};
-
 export const notifyReducer = (state = notifyReducerInitState, action) => {
   switch (action.type) {
     case Constance.NOTIFY_USER:
@@ -26,22 +20,22 @@ export const notifyReducer = (state = notifyReducerInitState, action) => {
 }
 
 
-export const settingsReducer = (state = settingReducerInitState, action) => {
+export const settingsReducer = (state = {}, action) => {
   switch (action.type) {
     case Constance.DISABLE_BALANCE_ON_ADD:
       return {
         ...state,
-        disableBalanceOnAdd: !state.disableBalanceOnAdd
+        disableBalanceOnAdd: action.payload
       }
     case Constance.DISABLE_BALANCE_ON_EDIT:
       return {
         ...state,
-        disableBalanceOnEdit: !state.disableBalanceOnEdit
+        disableBalanceOnEdit: action.payload
       }
     case Constance.ALLOW_REGISTRATION:
       return {
         ...state,
-        allowRegistration: !state.allowRegistration
+        allowRegistration: action.payload
       }
     default:
       return state
