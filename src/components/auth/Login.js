@@ -1,10 +1,12 @@
 import React, {useState} from 'react';
-import {firestoreConnect} from 'react-redux-firebase';
+import {firebaseConnect, firestoreConnect} from 'react-redux-firebase';
+import {connect} from 'react-redux';
+import {compose} from 'redux';
 import 'firebase/auth';
 
-const Login = (props) => {
+const Login = ({auth, firebase}) => {
 
-  const { firebase } = props;
+  console.log(auth)
 
   const initialState = {
     email: '',
@@ -73,4 +75,9 @@ const Login = (props) => {
   )
 }
 
-export default firestoreConnect()(Login);
+export default compose(
+  firebaseConnect(),
+  connect((state, props) => ({
+    auth: state.firebase.auth
+  }))
+)(Login);

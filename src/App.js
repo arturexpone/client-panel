@@ -5,7 +5,7 @@ import { Provider } from 'react-redux';
 
 import {store} from './store';
 import {rrfProps} from "./store";
-import {Navbar} from './components/layout/Navbar';
+import Navbar from './components/layout/Navbar';
 import {Dashboard} from './components/layout/Dashboard';
 import AddClient from './components/clients/AddClient';
 import ClientDetails from './components/clients/ClientDetails';
