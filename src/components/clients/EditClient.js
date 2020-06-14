@@ -10,11 +10,9 @@ import {createInput} from '../utils';
 
 const EditClient = (props) => {
 
-  const { client, history, firestore, settings, auth } = props;
+  const { client, history, firestore, settings } = props;
 
-  if (!auth.uid) {
-    history.push('/login');
-  }
+
 
   let initialState = {
     firstName: '',
@@ -25,6 +23,12 @@ const EditClient = (props) => {
   };
 
   const [state, setState] = useState(initialState);
+
+  useEffect(() => {
+    if (localStorage.getItem('uid') === '') {
+      history.push('/login');
+    }
+  });
 
   if(!client) {
     return <Loader />
@@ -82,6 +86,5 @@ export default compose(firestoreConnect((props) => [{
   connect(({ firestore: { ordered }, settings, notify, firebase }, props) => ({
     client: ordered.client && ordered.client[0],
     settings,
-    notify,
     auth: firebase.auth
   })))(EditClient);

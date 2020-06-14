@@ -1,14 +1,13 @@
 import React, {useEffect, useState} from 'react';
-import {NavLink} from 'react-router-dom';
-import {firebaseConnect} from 'react-redux-firebase';
+import {NavLink, Redirect} from 'react-router-dom';
+import {firebaseConnect, firestoreConnect} from 'react-redux-firebase';
 import {compose} from 'redux';
 import {connect} from 'react-redux';
 
 const Navbar = (props) => {
 
-    const { auth, firebase, history, settings } = props;
+    const { auth, firebase, settings } = props;
     const [authenticated, setAuthenticated] = useState(false);
-
 
     useEffect(() => {
         if (auth.uid) {
@@ -21,7 +20,7 @@ const Navbar = (props) => {
         firebase.logout();
         setAuthenticated(false);
         localStorage.setItem('uid', '');
-
+        return <Redirect to={'/login'} />
     };
 
     const showDashboard = authenticated ? (
@@ -97,6 +96,7 @@ const Navbar = (props) => {
 
 export default compose(
   firebaseConnect(),
+  firestoreConnect(),
   connect((state, props) => ({
       auth: state.firebase.auth,
       settings: state.settings
