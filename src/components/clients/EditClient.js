@@ -11,7 +11,7 @@ import {createInput} from "../utils";
 
 const EditClient = (props) => {
 
-  const { client, history } = props;
+  const { client, history, firestore } = props;
 
   let initialState = {
     firstName: '',
@@ -45,10 +45,8 @@ const EditClient = (props) => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    const newClient = state.balance ? state : {...state, balance: 0};
-    setState(initialState);
-    props.firestore.add({collection: 'clients'}, newClient);
-    props.history.push('/');
+    firestore.update({collection: 'clients', doc: client.id}, state)
+      .then(res => history.push('/'));
   }
 
   return (
@@ -61,7 +59,7 @@ const EditClient = (props) => {
         </div>
       </div>
 
-      <div className='card-header'>Add client</div>
+      <div className='card-header'>Edit client</div>
       <div className='card-body'>
         <form onSubmit={onSubmit}>
           {readyMountInput}
