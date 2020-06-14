@@ -1,10 +1,14 @@
 import React, {useState} from 'react';
-import {NavLink} from 'react-router-dom';
-import {firestoreConnect} from 'react-redux-firebase';
+import {NavLink, Redirect} from 'react-router-dom';
+import {firebaseConnect, firestoreConnect} from 'react-redux-firebase';
+import {connect} from 'react-redux';
+import {compose} from 'redux';
 
 import {createInput} from '../utils';
 
+
 export const AddClient = (props) => {
+
     const initialState = {
             firstName: '',
             lastName: '',
@@ -31,6 +35,10 @@ export const AddClient = (props) => {
         props.history.push('/');
     }
 
+    if (!localStorage.getItem('uid')) {
+      return <Redirect to='/login' />;
+    }
+
     return (
         <div>
             <div className='row'>
@@ -53,4 +61,9 @@ export const AddClient = (props) => {
     )
 }
 
-export default firestoreConnect()(AddClient);
+export default compose(
+  firestoreConnect(),
+  firebaseConnect(),
+  connect((state, props) => ({
+    auth: state.firebase.auth
+  })))(AddClient);

@@ -6,7 +6,7 @@ import {connect} from 'react-redux';
 
 const Navbar = (props) => {
 
-    const { auth, firebase } = props;
+    const { auth, firebase, history } = props;
     const [authenticated, setAuthenticated] = useState(false);
 
 
@@ -19,6 +19,7 @@ const Navbar = (props) => {
     const onLogout = e => {
         e.preventDefault();
         firebase.logout();
+        localStorage.clear();
     };
 
     const showDashboard = authenticated ? (

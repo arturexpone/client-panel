@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Suspense} from 'react';
 import {BrowserRouter, Route, Switch} from 'react-router-dom';
 import {ReactReduxFirebaseProvider} from "react-redux-firebase";
 import { Provider } from 'react-redux';
@@ -6,13 +6,15 @@ import { Provider } from 'react-redux';
 import {store} from './store';
 import {rrfProps} from "./store";
 import Navbar from './components/layout/Navbar';
-import {Dashboard} from './components/layout/Dashboard';
+import Dashboard from './components/layout/Dashboard';
 import AddClient from './components/clients/AddClient';
 import ClientDetails from './components/clients/ClientDetails';
-import EditClient from "./components/clients/EditClient";
+import EditClient from './components/clients/EditClient';
 import Login from './components/auth/Login';
 
 import './App.css';
+import {Loader} from './components/layout/Loader';
+
 
 
 export const App = () => {
@@ -20,9 +22,10 @@ export const App = () => {
       <Provider store={store}>
           <ReactReduxFirebaseProvider {...rrfProps}>
               <BrowserRouter>
-                <div className="App">
+                <div className='App'>
                   <Navbar />
-                  <div className="container">
+                  <div className='container'>
+                    <Suspense fallback={Loader}>
                       <Switch>
                           <Route exact path='/' component={Dashboard} />
                           <Route exact path='/client/add' component={AddClient} />
@@ -30,6 +33,7 @@ export const App = () => {
                           <Route exact path='/client/edit/:id' component={EditClient} />
                           <Route exact path='/login' component={Login} />
                       </Switch>
+                    </Suspense>
                   </div>
                 </div>
               </BrowserRouter>

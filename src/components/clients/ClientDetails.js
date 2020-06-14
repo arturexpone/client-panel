@@ -1,11 +1,11 @@
 import React, {useState} from 'react';
 import {compose} from 'redux';
-import {firestoreConnect} from 'react-redux-firebase';
+import {firebaseConnect, firestoreConnect} from 'react-redux-firebase';
 import {connect} from 'react-redux';
 import classnames from 'classnames';
 
 import {Loader} from '../layout/Loader';
-import {NavLink} from 'react-router-dom';
+import {NavLink, Redirect} from 'react-router-dom';
 
 const ClientDetails = (props) => {
 
@@ -13,6 +13,7 @@ const ClientDetails = (props) => {
     const initialState = {
     showUpdateBalance: false,
     balance: '',
+    clientId: client && client.id ? client.id : '',
     };
     const [state, setState] = useState(initialState);
 
@@ -57,80 +58,88 @@ const ClientDetails = (props) => {
         )
     }
 
+    if (!localStorage.getItem('uid')) {
+        return <Redirect to='/login' />;
+    }
+
     if (!client) {
     return <Loader />
     }
 
-    return (
-    <div>
+    const detailsMarkdown = (<div>
         <div className='row'>
-            <div className='col-md-6'>
-                <NavLink to='/' className='btn btn-link'>
-                    <i className='fas fa-arrow-circle-left'> </i> Back to dashboard
+        <div className='col-md-6'>
+            <NavLink to='/' className='btn btn-link'>
+                <i className='fas fa-arrow-circle-left'> </i> Back to dashboard
+            </NavLink>
+        </div>
+        <div className='col-md-6'>
+            <div className='btn-group float-right'>
+                <NavLink to={`/client/edit/${client.id}`} className='btn btn-dark'>
+                    Edit
                 </NavLink>
-            </div>
-            <div className='col-md-6'>
-                <div className='btn-group float-right'>
-                    <NavLink to={`/client/edit/${client.id}`} className='btn btn-dark'>
-                        Edit
-                    </NavLink>
-                    <button
-                      className='btn btn-danger'
-                      onClick={onDeleteClick}
-                    >
-                        Delete
-                    </button>
-                </div>
+                <button
+                  className='btn btn-danger'
+                  onClick={onDeleteClick}
+                >
+                    Delete
+                </button>
             </div>
         </div>
-        <hr/>
-        <div className="card">
-            <h3 className="card-header">
-                {client.firstName} {client.lastName}
-            </h3>
-            <div className='card-body'>
-                <div className='row'>
-                    <div className='col-md-8 col-sm-6'>
-                        <h4>{`Client ID: `}
-                            <span className='text-secondary'>
+    </div>
+    <hr/>
+    <div className="card">
+        <h3 className="card-header">
+            {client.firstName} {client.lastName}
+        </h3>
+        <div className='card-body'>
+            <div className='row'>
+                <div className='col-md-8 col-sm-6'>
+                    <h4>{`Client ID: `}
+                        <span className='text-secondary'>
                                 {client.id}
                             </span>
-                        </h4>
-                    </div>
-                    <div className='col-md-4 col-sm-6'>
-                        <h3 className='pull-right'>{`Balance: $`}
-                            <span className='text-secondary'>
+                    </h4>
+                </div>
+                <div className='col-md-4 col-sm-6'>
+                    <h3 className='pull-right'>{`Balance: $`}
+                        <span className='text-secondary'>
                                 <span
-                                className={classnames({
-                                    'text-danger': client.balance > 0,
-                                    'text-success': client.balance === 0
-                                    })}>
+                                  className={classnames({
+                                      'text-danger': client.balance > 0,
+                                      'text-success': client.balance === 0
+                                  })}>
                                     {parseFloat(client.balance).toFixed(2) + ' '}
                                 </span>
                                 <small>
                                     <a href='#'
                                        onClick={() =>
-                                           setState(
-                                               {
-                                                   ...state,
-                                                   showUpdateBalance: !state.showUpdateBalance
-                                               })}>
+                                         setState(
+                                           {
+                                               ...state,
+                                               showUpdateBalance: !state.showUpdateBalance
+                                           })}>
                                         <i className="fas fa-pencil-alt"> </i>
                                     </a>
                                 </small>
                             </span>
-                        </h3>
-                        {balanceForm}
-                    </div>
+                    </h3>
+                    {balanceForm}
                 </div>
-                <hr/>
-                <ul className="list-group">
-                    <li className="list-group-item">Contact Email: {client.email}</li>
-                    <li className="list-group-item">Contact Phone: {client.phone}</li>
-                </ul>
             </div>
+            <hr/>
+            <ul className="list-group">
+                <li className="list-group-item">Contact Email: {client.email}</li>
+                <li className="list-group-item">Contact Phone: {client.phone}</li>
+            </ul>
         </div>
     </div>
+</div>);
+
+    return (
+      <>
+        {state.clientId === client.id ? <Loader /> : detailsMarkdown}
+      </>
     )
 }
 
@@ -138,7 +147,8 @@ export default compose(firestoreConnect((props) => [{
     collection: 'clients',
     storeAs: 'client',
     doc: props.match.params.id
-}]),
-connect(({ firestore: { ordered } }, props) => ({
-    client: ordered.client && ordered.client[0]
-})))(ClientDetails);
+}]), firebaseConnect(),
+connect((state, props) => ({
+    client: state.firestore.ordered.client && state.firestore.ordered.client[0],
+    auth: state.firebase.auth.uid})
+))(ClientDetails);
