@@ -6,7 +6,7 @@ import {connect} from 'react-redux';
 
 const Navbar = (props) => {
 
-    const { auth, firebase, history } = props;
+    const { auth, firebase, history, settings } = props;
     const [authenticated, setAuthenticated] = useState(false);
 
 
@@ -14,12 +14,14 @@ const Navbar = (props) => {
         if (auth.uid) {
             setAuthenticated(true);
         }
-    }, [auth]);
+    }, [auth.uid]);
 
     const onLogout = e => {
         e.preventDefault();
         firebase.logout();
+        setAuthenticated(false);
         localStorage.clear();
+
     };
 
     const showDashboard = authenticated ? (
@@ -74,6 +76,20 @@ const Navbar = (props) => {
                     </span>
                 </button>
                 {showDashboard}
+                {settings.allowRegistration && !authenticated ? (
+                  <ul className="navbar-nav ml-auto">
+                      <li className="nav-item">
+                          <NavLink to='/login' className='nav-link'>
+                              Login
+                          </NavLink>
+                      </li>
+                      <li className="nav-item">
+                          <NavLink to='/login' className='nav-link'>
+                              Register
+                          </NavLink>
+                      </li>
+                  </ul>
+                ) : null}
             </div>
         </nav>
     )
@@ -83,6 +99,6 @@ export default compose(
   firebaseConnect(),
   connect((state, props) => ({
       auth: state.firebase.auth,
-      setting: state.settings
+      settings: state.settings
   }))
 )(Navbar);

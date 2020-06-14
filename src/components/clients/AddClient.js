@@ -9,6 +9,8 @@ import {createInput} from '../utils';
 
 export const AddClient = (props) => {
 
+  const { disableBalanceOnAdd } = props.settings;
+
     const initialState = {
             firstName: '',
             lastName: '',
@@ -24,7 +26,7 @@ export const AddClient = (props) => {
         ['Last Name','text', 'lastName'],
         ['Email', 'email', 'email'],
         ['Phone', 'text', 'phone'],
-        ['Balance','text', 'balance'],
+        ['Balance','text', 'balance', disableBalanceOnAdd],
     ], state, setState);
 
     const onSubmit = (e) => {
@@ -65,5 +67,6 @@ export default compose(
   firestoreConnect(),
   firebaseConnect(),
   connect((state, props) => ({
-    auth: state.firebase.auth
+    auth: state.firebase.auth,
+    settings: state.settings
   })))(AddClient);

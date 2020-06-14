@@ -30,8 +30,7 @@ const Login = ({auth, firebase, notifyUser, notify}) => {
     firebase.default.login({
       email,
       password
-    }).then(data => notifyUser('success', null))
-      .catch(err => {
+    }).catch(err => {
         notifyUser(err.message, err.code);
       });
 
@@ -47,7 +46,7 @@ const Login = ({auth, firebase, notifyUser, notify}) => {
         <div className='col-md-6 mx-auto'>
           <div className='card'>
             <div className='card-body'>
-              {message ? (<Alert message={message} messageType={messageType}/>) : null}
+              {message ? (<Alert message={message}/>) : null}
               <h1 className='text-center pb-4 pt-3'>
               <span className='text-primary'>
                 <i className='fas fa-lock'> </i>

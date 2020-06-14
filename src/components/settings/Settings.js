@@ -1,11 +1,15 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {allowRegistration, disableBalanceOnAdd, disableBalanceOnEdit} from '../../redux/ac';
-import {NavLink} from "react-router-dom";
+import {NavLink, Redirect} from "react-router-dom";
 
 const Settings = (props) => {
 
   const { allowRegistration, disableBalanceOnAdd, disableBalanceOnEdit, settings } = props;
+
+  if (!localStorage.getItem('uid')) {
+    return <Redirect to='/login' />;
+  }
 
   return (
     <div>

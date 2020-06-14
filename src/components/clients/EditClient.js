@@ -10,7 +10,7 @@ import {createInput} from '../utils';
 
 const EditClient = (props) => {
 
-  const { client, history, firestore } = props;
+  const { client, history, firestore, settings } = props;
 
   let initialState = {
     firstName: '',
@@ -38,7 +38,7 @@ const EditClient = (props) => {
       ['Last Name','text', 'lastName'],
       ['Email', 'email', 'email'],
       ['Phone', 'text', 'phone'],
-      ['Balance','text', 'balance'],
+      ['Balance','text', 'balance', settings.disableBalanceOnEdit],
     ], state, setState);
   }
 
@@ -75,6 +75,7 @@ export default compose(firestoreConnect((props) => [{
     storeAs: 'client',
     doc: props.match.params.id
   }]),
-  connect(({ firestore: { ordered } }, props) => ({
-    client: ordered.client && ordered.client[0]
+  connect(({ firestore: { ordered }, settings }, props) => ({
+    client: ordered.client && ordered.client[0],
+    settings
   })))(EditClient);

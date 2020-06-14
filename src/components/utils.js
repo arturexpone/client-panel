@@ -13,6 +13,7 @@ export const createInput = (array, state, setState) => {
           required
           onChange={(e) => setState({...state, [data[2]]: e.target.value}) }
           value={state[data[2]]}
+          disabled={data[3]}
         />
       </div>
     )

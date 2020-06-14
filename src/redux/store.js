@@ -38,7 +38,7 @@ if (!localStorage.getItem('settings')) {
     const defaultSettings = {
         disableBalanceOnAdd: false,
         disableBalanceOnEdit: false,
-        allowRegistration: false
+        allowRegistration: true
     }
 
     localStorage.setItem('settings', JSON.stringify(defaultSettings));
