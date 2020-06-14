@@ -41,6 +41,11 @@ const Navbar = (props) => {
                     </a>
                 </li>
                 <li className='nav-item'>
+                    <NavLink to='/settings' className='nav-link'>
+                        Settings
+                    </NavLink>
+                </li>
+                <li className='nav-item'>
                     <a
                       href='#'
                       className='nav-link'
@@ -77,6 +82,7 @@ const Navbar = (props) => {
 export default compose(
   firebaseConnect(),
   connect((state, props) => ({
-      auth: state.firebase.auth
+      auth: state.firebase.auth,
+      setting: state.settings
   }))
 )(Navbar);

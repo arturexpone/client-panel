@@ -7,7 +7,7 @@ const notifyReducerInitState = {
 };
 
 const settingReducerInitState = {
-  disableBalanceOnAdd: true,
+  disableBalanceOnAdd: false,
   disableBalanceOnEdit: false,
   allowRegistration: false
 };
